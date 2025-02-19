@@ -18,9 +18,14 @@ use std::str::FromStr;
 use crate::solana::{
     blockhash::BLOCKHASH_CACHE,
     constants::{
-        ASSOCIATED_TOKEN_PROGRAM, EVENT_AUTHORITY, PUMP_FUN_MINT_AUTHORITY,
-        PUMP_FUN_PROGRAM, PUMP_GLOBAL_ADDRESS, RENT_PROGRAM,
-        SYSTEM_PROGRAM_ID, TOKEN_PROGRAM,
+        ASSOCIATED_TOKEN_PROGRAM, 
+        EVENT_AUTHORITY, 
+        PUMP_FUN_MINT_AUTHORITY,
+        PUMP_FUN_PROGRAM, 
+        PUMP_GLOBAL_ADDRESS, 
+        RENT_PROGRAM,
+        SYSTEM_PROGRAM_ID, 
+        TOKEN_PROGRAM,
     },
     pump::_make_buy_ixs,
     pump::{get_bonding_curve, get_pump_token_amount, BondingCurveLayout},
@@ -29,8 +34,7 @@ use crate::solana::{
     util::make_compute_budget_ixs,
 };
 
-pub const MPL_TOKEN_METADATA: &str =
-    "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s";
+pub const MPL_TOKEN_METADATA: &str = "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s";
 // this might be derived
 pub const METADATA: &str = "GgrH3ApmK1SYJVZNEuUavbZQx4Yt8WoBz3tkRuLKwj45";
 

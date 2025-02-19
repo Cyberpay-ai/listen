@@ -5,12 +5,12 @@ export const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Left side */}
           <div className="flex items-center space-x-4">
-            <img
+            {/* <img
               src="/listen-more.png"
               alt="Logo"
               className="w-8 h-8 rounded"
-            />
-            <span className="font-bold text-xl">listen</span>
+            /> */}
+            <span className="font-bold text-xl">Cryptoman</span>
           </div>
 
           {/* Right side */}

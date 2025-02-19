@@ -37,12 +37,20 @@ where
 
 use rig::agent::{Agent, AgentBuilder};
 use rig::providers::anthropic::completion::CompletionModel as AnthropicCompletionModel;
+use rig::providers::anthropic::ClientBuilder;
 
+// pub fn claude_agent_builder() -> AgentBuilder<AnthropicCompletionModel> {
+//     rig::providers::anthropic::Client::from_env()
+//         .agent(rig::providers::anthropic::CLAUDE_3_5_SONNET)
+// }
 pub fn claude_agent_builder() -> AgentBuilder<AnthropicCompletionModel> {
-    rig::providers::anthropic::Client::from_env()
-        .agent(rig::providers::anthropic::CLAUDE_3_5_SONNET)
+    let api_key =  std::env::var("ANTHROPIC_API_KEY").expect("ANTHROPIC_API_KEY not set");
+    let base_url = std::env::var("ANTHROPIC_BASE_URL").expect("ANTHROPIC_BASE_URL not set");
+    ClientBuilder::new(&api_key)
+        .base_url(&base_url)
+        .build()
+        .agent("claude-3-sonnet-20240229")
 }
-
 pub async fn plain_agent() -> Result<Agent<AnthropicCompletionModel>> {
     Ok(claude_agent_builder()
         .preamble("be nice to the users")

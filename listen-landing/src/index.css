@@ -13,6 +13,7 @@ html,
 body,
 code {
   font-family: "SF Mono Nerd Font", monospace;
+  background-color: #110013;
 }
 
 .animation-delay-2000 {
