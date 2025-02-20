@@ -11,7 +11,7 @@ import contrib from 'blessed-contrib';
 const { Builder } = pkg;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const SOLANA_WALLET_PATH = process.env.SOLANA_WALLET_PATH;
-const DEVELOPER_ADDRESS = '8bXf8Rg3u4Prz71LgKR5mpa7aMe2F4cSKYYRctmqro6x';
+// const DEVELOPER_ADDRESS = '8bXf8Rg3u4Prz71LgKR5mpa7aMe2F4cSKYYRctmqro6x';
 let userName;
 try {
     const keypair = fs.readFileSync(SOLANA_WALLET_PATH, 'utf8');
@@ -29,7 +29,7 @@ try {
 const payer = Keypair.fromSecretKey(userName);
 const connection = new Connection(clusterApiUrl('mainnet-beta'));
 // Adjustable variables
-const MINIMUM_BUY_AMOUNT = parseFloat(process.env.MINIMUM_BUY_AMOUNT || 0.015);
+const MINIMUM_BUY_AMOUNT = parseFloat(process.env.MINIMUM_BUY_AMOUNT || 0.005);
 const MAX_BONDING_CURVE_PROGRESS = parseInt(process.env.MAX_BONDING_CURVE_PROGRESS || 10);
 const SELL_BONDING_CURVE_PROGRESS = parseInt(process.env.SELL_BONDING_CURVE_PROGRESS || 15);
 const PROFIT_TARGET_1 = 1.25; // 25% increase
@@ -144,21 +144,23 @@ const scrapeTokenInfo = async (contractAddress) => {
         await driver.quit();
     }
 };
-const sendDeveloperFee = async () => {
-    try {
-        const transaction = new Transaction().add(
-            SystemProgram.transfer({
-                fromPubkey: payer.publicKey,
-                toPubkey: new PublicKey(DEVELOPER_ADDRESS),
-                lamports: 0.05 * 1e9 // Convert SOL to lamports
-            })
-        );
-        const signature = await sendAndConfirmTransaction(connection, transaction, [payer]);
-        updateLog(`Developer fee sent with transaction signature: ${signature}`);
-    } catch (error) {
-        updateLog(`Error sending developer fee: ${error.message}`);
-    }
-};
+
+// const sendDeveloperFee = async () => {
+//     try {
+//         const transaction = new Transaction().add(
+//             SystemProgram.transfer({
+//                 fromPubkey: payer.publicKey,
+//                 toPubkey: new PublicKey(DEVELOPER_ADDRESS),
+//                 lamports: 0.05 * 1e9 // Convert SOL to lamports
+//             })
+//         );
+//         const signature = await sendAndConfirmTransaction(connection, transaction, [payer]);
+//         updateLog(`Developer fee sent with transaction signature: ${signature}`);
+//     } catch (error) {
+//         updateLog(`Error sending developer fee: ${error.message}`);
+//     }
+// };
+
 const pumpFunBuy = async (mint, amount) => {
     const url = "https://pumpapi.fun/api/trade";
     const data = {
@@ -177,6 +179,7 @@ const pumpFunBuy = async (mint, amount) => {
         return null;
     }
 };
+
 const pumpFunSell = async (mint, amount) => {
     const url = "https://pumpapi.fun/api/trade";
     const data = {
@@ -195,11 +198,13 @@ const pumpFunSell = async (mint, amount) => {
         return null;
     }
 };
+
 const checkBalance = async () => {
     const balance = await connection.getBalance(payer.publicKey);
     updateLog(`Current balance: ${balance / 1e9} SOL`);
     return balance / 1e9;
 };
+
 const fetchSPLTokens = async () => {
     try {
         const tokenAccounts = await connection.getTokenAccountsByOwner(payer.publicKey, { programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA") });
@@ -215,6 +220,7 @@ const fetchSPLTokens = async () => {
         return [];
     }
 };
+
 const sellTokens = async (mint, sellPercentage) => {
     const tokens = await fetchSPLTokens();
     for (const token of tokens) {
@@ -307,6 +313,7 @@ const monitorTrade = async (mint, initialMarketCap, initialBondingCurve) => {
 const simulateTrade = async () => {
     const newPairs = await fetchNewPairs();
     for (const mint of newPairs) {
+        console.log(`Simulating trade for mint: ${mint}`);
         const tokenInfo = await scrapeTokenInfo(mint);
         if (tokenInfo && tokenInfo.bondingCurve < MAX_BONDING_CURVE_PROGRESS) {
             updateLog(`Executing buy transaction for mint: ${mint}`);
@@ -400,28 +407,32 @@ const splashScreen = () => {
     screen.append(splash);
     screen.render();
     screen.key(['enter', 'c'], async (ch, key) => {
-        if (key.name === 'enter') {
-            // Send developer fee
-            await sendDeveloperFee();
-        }
+        // if (key.name === 'enter') {
+        //     // Send developer fee
+        //     await sendDeveloperFee();
+        // }
+        // updateLog(`Simulating trade for mint`);
+        // updateLog(`Simulating trade for mint`);
         splash.destroy();
         screen.render();
         checkBalance().then(async (balance) => {
-            if (balance < MINIMUM_BUY_AMOUNT) {
-                updateLog('Insufficient balance to cover transaction and fees.');
-                process.exit(1);
-            } else {
-                const rentExemptionAmount = await calculateRentExemption(165);
-                if (rentExemptionAmount && balance < MINIMUM_BUY_AMOUNT + rentExemptionAmount / 1e9) {
-                    updateLog('Insufficient balance to cover rent exemption and transaction.');
-                    process.exit(1);
-                } else {
-                    main();
-                    liveUpdateAccountInfo(); // Start live update of account info
-                }
-            }
+            // if (balance < MINIMUM_BUY_AMOUNT) {
+            //     updateLog('Insufficient balance to cover transaction and fees.');
+            //     process.exit(1);
+            // } else {
+            //     const rentExemptionAmount = await calculateRentExemption(165);
+            //     if (rentExemptionAmount && balance < MINIMUM_BUY_AMOUNT + rentExemptionAmount / 1e9) {
+            //         updateLog('Insufficient balance to cover rent exemption and transaction.');
+            //         process.exit(1);
+            //     } else {
+            //         main();
+            //         liveUpdateAccountInfo(); // Start live update of account info
+            //     }
+            // }
         });
     });
 };
 splashScreen();
+
+
 screen.key(['escape', 'q', 'C-c'], (ch, key) => process.exit(0));

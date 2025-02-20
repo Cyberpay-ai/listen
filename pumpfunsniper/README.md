@@ -5,8 +5,8 @@
 
 ### Run the trading bot:
 
-```sh node script.mjs ```  
+```node script.mjs ```  
 
 ### Sell all SPL tokens:
 
-```sh node sell.js ``` 
+``` node sell.js ``` 
