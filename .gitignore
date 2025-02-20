@@ -26,3 +26,4 @@ auth.json
 book
 ansible/inventory
 routes
+node_modules
