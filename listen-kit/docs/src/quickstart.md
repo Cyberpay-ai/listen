@@ -8,7 +8,7 @@ Import an agent of choice, along with the `SignerContext` and the local signer s
 use std::sync::Arc;
 use rig_onchain_kit::agent::create_solana_agent;
 use rig_onchain_kit::signer::SignerContext;
-use rig_onchain_kit::signer::solana::LocalSolanaSigner,
+use rig_onchain_kit::signer::solana::LocalSolanaSigner;
 use rig::completion::Prompt;
 
 #[tokio::main]
