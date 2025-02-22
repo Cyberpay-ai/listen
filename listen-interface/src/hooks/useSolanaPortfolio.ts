@@ -75,8 +75,7 @@ async function fetchTokenMetadata(mint: string): Promise<TokenMetadata> {
 
 async function fetchPrices(mints: string[]): Promise<PriceResponse> {
   try {
-    const response = await fetch(
-      `https://api.jup.ag/price/v2?ids=${mints.join(",")}`,
+    const response = await fetch(`https://api.jup.ag/price/v2?ids=${mints.join(",")}`,
     );
     if (!response.ok) {
       throw new Error("Failed to fetch prices");

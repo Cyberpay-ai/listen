@@ -4,7 +4,7 @@ import { ChatContainer } from "./ChatContainer";
 import { ChatMessage, ToolMessage } from "./Messages";
 import { PipelineDisplay } from "./Pipeline";
 
-const IS_DISABLED = true;
+const IS_DISABLED = false;
 
 const LoadingIndicator = () => (
   <div className="bg-purple-900/20 text-purple-300 rounded px-4 py-2">...</div>
@@ -35,7 +35,7 @@ const renderMessage = (msg: Message) => {
       const pipeline = JSON.parse(pipelineContent);
       if (pipeline && pipeline.steps) {
         return (
-          <div key={msg.id} className="mb-6 border-b border-purple-500/30 pb-6">
+          <div key={msg.id} className="mb-6 border-b border-gray-500/30 pb-6">
             <PipelineDisplay pipeline={pipeline} />
           </div>
         );

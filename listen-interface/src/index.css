@@ -14,6 +14,7 @@ html,
 body,
 code {
   font-family: "SF Mono Nerd Font", monospace;
+  background-color: #191919;
 }
 
 /* Animation delays */

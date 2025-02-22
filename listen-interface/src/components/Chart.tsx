@@ -108,8 +108,7 @@ export function Chart({ mint, interval = "1m" }: ChartProps) {
       if (isDisposed.current) return;
 
       try {
-        const response = await fetch(
-          `https://api.listen-rs.com/v1/adapter/candlesticks?mint=${mint}&interval=${interval}`
+        const response = await fetch(`https://api.listen-rs.com/v1/adapter/candlesticks?mint=${mint}&interval=${interval}`
         );
         const data = CandlestickData.parse(await response.json());
 

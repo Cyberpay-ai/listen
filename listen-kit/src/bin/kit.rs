@@ -12,11 +12,14 @@ async fn main() -> std::io::Result<()> {
             std::io::Error::new(std::io::ErrorKind::Other, e)
         })?);
 
+    print!("Starting server...");
+
     let omni_agent =
         listen_kit::cross_chain::agent::create_cross_chain_agent()
             .await
             .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
-
+    
+    print!("omni_agent...");
     // Create agents based on enabled features
     #[cfg(feature = "solana")]
     let solana_agent = listen_kit::solana::agent::create_solana_agent()

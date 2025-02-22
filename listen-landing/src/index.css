@@ -26,3 +26,14 @@ code {
 .animation-delay-6000 {
   animation-delay: 6s;
 }
+
+
+.\[\&\.active\]\:bg-purple-500\/20.active{
+  background-color: rgb(255 255 255 / 15%)!important;
+}
+.border-purple-500\/30{
+  border-color: rgb(255 255 255 / 15%)!important;
+}
+.border-2{
+  border-width: 0.5px!important;
+}

@@ -30,7 +30,7 @@ declare module "@tanstack/react-router" {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <PrivyProvider appId={"cm6c7ifqd00ar52m1qxfgbkkn"} config={{}}>
+    <PrivyProvider appId={"cm6jqrvab001ffmzqgj3t6ann"} config={{}}>
       <WagmiProvider config={config}>
         <QueryClientProvider client={new QueryClient()}>
           <ModalProvider>

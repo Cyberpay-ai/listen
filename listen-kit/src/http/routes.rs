@@ -102,6 +102,8 @@ async fn stream(
     let signer: Arc<dyn TransactionSigner> =
         Arc::new(PrivySigner::new(state.privy.clone(), user_session.clone()));
 
+    println!("Starting reasoning loop...");
+    
     spawn_with_signer(signer, || async move {
         let reasoning_loop = ReasoningLoop::new(agent).with_stdout(false);
 

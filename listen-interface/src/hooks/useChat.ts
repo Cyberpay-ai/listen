@@ -109,7 +109,7 @@ export function useChat() {
           chain: "omni",
         });
 
-        const response = await fetch(config.API_BASE_URL + "/v1/kit/stream", {
+        const response = await fetch('localhost:6969' + "/v1/kit/stream", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

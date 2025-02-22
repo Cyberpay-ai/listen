@@ -1,21 +1,18 @@
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Header } from "./Header";
-import { Background } from "./Background";
 
 const App = () => {
   return (
     <div className="relative min-h-screen text-white">
-      <Background />
       <Header />
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-20">
-        {/* Hero */}
         <div className="text-center mb-20 mt-10">
-          <img
+          {/* <img
             src="/listen-more.png"
             alt="listen"
             className="w-48 h-48 mx-auto mb-12 rounded shadow-lg"
-          />
+          /> */}
           <h1 className="text-6xl font-bold mb-6">listen</h1>
           <p className="text-xl text-gray-300">
             blazingly fast actions for AI agents in Rust
@@ -34,7 +31,7 @@ const App = () => {
               />
             </a>
           </div>
-          <div className="mt-5 flex justify-center text-lg [&>pre]:rounded-lg">
+          {/* <div className="mt-5 flex justify-center text-lg [&>pre]:rounded-lg">
             <SyntaxHighlighter
               language="bash"
               style={{
@@ -46,7 +43,7 @@ const App = () => {
             >
               {`cargo add listen-kit`}
             </SyntaxHighlighter>
-          </div>
+          </div> */}
         </div>
 
         {/* Features Grid */}
