@@ -1,109 +1,109 @@
 services:
-  indexer:
-    image: listen-indexer
-    build:
-      context: ./listen-data
-      dockerfile: Dockerfile
-    env_file:
-      - .env
-    volumes:
-      - .env:/app/.env
-    environment:
-      - REDIS_URL=redis://redis:6379
-      - CLICKHOUSE_URL=http://clickhouse:8123
-      - CLICKHOUSE_USER=default
-      - CLICKHOUSE_PASSWORD=default
-      - CLICKHOUSE_DATABASE=default
-    depends_on:
-      redis:
-        condition: service_healthy
-      clickhouse:
-        condition: service_healthy
+  # indexer:
+  #   image: listen-indexer
+  #   build:
+  #     context: ./listen-data
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - .env:/app/.env
+  #   environment:
+  #     - REDIS_URL=redis://redis:6379
+  #     - CLICKHOUSE_URL=http://clickhouse:8123
+  #     - CLICKHOUSE_USER=default
+  #     - CLICKHOUSE_PASSWORD=default
+  #     - CLICKHOUSE_DATABASE=default
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy
+  #     clickhouse:
+  #       condition: service_healthy
 
-  adapter:
-    image: listen-adapter
-    build:
-      context: ./listen-adapter
-      dockerfile: Dockerfile
-    environment:
-      - REDIS_URL=redis://redis:6379
-      - HOST=0.0.0.0
-      - PORT=6968
-    ports:
-      - 6968:6968
-    depends_on:
-      redis:
-        condition: service_healthy
+  # adapter:
+  #   image: listen-adapter
+  #   build:
+  #     context: ./listen-adapter
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     - REDIS_URL=redis://redis:6379
+  #     - HOST=0.0.0.0
+  #     - PORT=6968
+  #   ports:
+  #     - 6968:6968
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy
 
-  redis:
-    build:
-      context: ./vendor/redis
-      dockerfile: Dockerfile
-    ports:
-      - 6379:6379
-    volumes:
-      - redis-data:/data
-    deploy:
-      resources:
-        limits:
-          cpus: "2"
-          memory: "1.5G"
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
-    command: redis-server /usr/local/etc/redis/redis.conf --save "" --appendonly no
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+  # redis:
+  #   build:
+  #     context: ./vendor/redis
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - redis-data:/data
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: "2"
+  #         memory: "1.5G"
+  #   ulimits:
+  #     nofile:
+  #       soft: 65536
+  #       hard: 65536
+  #   command: redis-server /usr/local/etc/redis/redis.conf --save "" --appendonly no
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
 
-  clickhouse:
-    build:
-      context: ./vendor/clickhouse
-      dockerfile: Dockerfile
-    ports:
-      - 8123:8123
-      - 9000:9000
-    volumes:
-      - clickhouse-data:/var/lib/clickhouse
-      - clickhouse-logs:/var/log/clickhouse-server
-    environment:
-      - CLICKHOUSE_PASSWORD=default
-      - CLICKHOUSE_HOST=0.0.0.0
-    ulimits:
-      nofile:
-        soft: 262144
-        hard: 262144
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--no-verbose",
-          "--tries=1",
-          "--spider",
-          "http://localhost:8123/ping",
-        ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+  # clickhouse:
+  #   build:
+  #     context: ./vendor/clickhouse
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 8123:8123
+  #     - 9000:9000
+  #   volumes:
+  #     - clickhouse-data:/var/lib/clickhouse
+  #     - clickhouse-logs:/var/log/clickhouse-server
+  #   environment:
+  #     - CLICKHOUSE_PASSWORD=default
+  #     - CLICKHOUSE_HOST=0.0.0.0
+  #   ulimits:
+  #     nofile:
+  #       soft: 262144
+  #       hard: 262144
+  #   healthcheck:
+  #     test:
+  #       [
+  #         "CMD",
+  #         "wget",
+  #         "--no-verbose",
+  #         "--tries=1",
+  #         "--spider",
+  #         "http://localhost:8123/ping",
+  #       ]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
+  #     start_period: 10s
 
-  grafana:
-    image: grafana/grafana-oss
-    ports:
-      - 3001:3000
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+  # grafana:
+  #   image: grafana/grafana-oss
+  #   ports:
+  #     - 3001:3000
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
 
-  prometheus:
-    image: prom/prometheus
-    ports:
-      - 9090:9090
-    volumes:
-      - ./listen-engine/prometheus.yml:/etc/prometheus/prometheus.yml
+  # prometheus:
+  #   image: prom/prometheus
+  #   ports:
+  #     - 9090:9090
+  #   volumes:
+  #     - ./listen-engine/prometheus.yml:/etc/prometheus/prometheus.yml
 
   # this is not ran, would require tweaking the config
   nginx:
@@ -113,8 +113,8 @@ services:
       - 6001:443
     volumes:
       - ./vendor/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./cert.pem:/etc/letsencrypt/live/api.listen-rs.com/fullchain.pem:ro
-      - ./privkey.pem:/etc/letsencrypt/live/api.listen-rs.com/privkey.pem:ro
+      # - ./cert.pem:/etc/letsencrypt/live/api.listen-rs.com/fullchain.pem:ro
+      # - ./privkey.pem:/etc/letsencrypt/live/api.listen-rs.com/privkey.pem:ro
     network_mode: host
 
 volumes:

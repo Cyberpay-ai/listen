@@ -7,6 +7,11 @@ export function ChatContainer({
 }) {
   return (
     <div className="flex flex-col gap-4 h-[85vh] w-full font-mono">
+       <div className="flex justify-between items-center lg:px-4 py-8">
+        <h1 className="lg:text-2xl text-xl font-bold text-white lg:text-left text-center">
+          Chatbot
+        </h1>
+      </div>
       <div className="flex-1 overflow-hidden">
         <div className="h-full border-2 border-purple-500/30 rounded-lg overflow-hidden bg-black/40 backdrop-blur-sm">
           <div className="h-full flex flex-col">

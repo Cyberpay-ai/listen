@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { TokenMarketData } from "../types/metadata";
 import type { PriceUpdate } from "../types/price";
 import { TokenTile } from "./TokenTile";
+import { config } from "../config";
 
 export function PriceUpdates() {
   const [latestUpdate, setLatestUpdate] = useState<PriceUpdate | null>(null);
@@ -16,7 +17,7 @@ export function PriceUpdates() {
   );
 
   useEffect(() => {
-    const ws = new WebSocket("wss://api.listen-rs.com/v1/adapter/ws");
+    const ws = new WebSocket(`${config.WS_URL}`);
 
     ws.onmessage = (event) => {
       try {
@@ -127,7 +128,7 @@ export function PriceUpdates() {
   return (
     <div className="h-full flex flex-col gap-2 p-2 sm:p-4 overflow-hidden">
       {/* Latest Update Section */}
-      <div className="h-[52px] bg-black/40 backdrop-blur-sm border border-purple-500/20 rounded-xl p-3 flex items-center">
+      {/* <div className="h-[52px] bg-black/40 backdrop-blur-sm border border-purple-500/20 rounded-xl p-3 flex items-center">
         {latestUpdate ? (
           <div className="flex flex-row w-full text-sm">
             <span className="text-purple-300/70 w-18 text-left mr-2">
@@ -154,7 +155,7 @@ export function PriceUpdates() {
             Waiting for updates...
           </span>
         )}
-      </div>
+      </div> */}
 
       {/* Top Tokens Section */}
       <div className="flex-1 bg-black/40 backdrop-blur-sm border border-purple-500/20 rounded-xl shadow-lg flex flex-col min-h-0">

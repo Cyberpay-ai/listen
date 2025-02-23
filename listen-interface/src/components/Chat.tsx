@@ -119,6 +119,7 @@ export function Chat() {
 
   return (
     <ChatContainer inputMessage={inputMessage}>
+      
       {messages.map(renderMessage)}
       {isLoading && <LoadingIndicator />}
     </ChatContainer>

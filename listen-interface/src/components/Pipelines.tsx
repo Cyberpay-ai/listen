@@ -67,7 +67,7 @@ export function Pipelines() {
     <div className="container mx-auto lg:px-4 py-8">
       <div className="flex justify-between items-center mb-6 lg:p-0 p-4">
         <h1 className="lg:text-2xl text-xl font-bold text-white lg:text-left text-center">
-          Pipelines
+          Workflow
         </h1>
         <div className="flex items-center gap-2">
           <select

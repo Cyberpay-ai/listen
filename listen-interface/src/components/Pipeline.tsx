@@ -22,7 +22,7 @@ export function PipelineDisplay({ pipeline }: PipelineProps) {
     setStatus("loading");
     try {
       const token = await getAccessToken();
-      const res = await fetch(config.API_BASE_URL + "/v1/engine/pipeline", {
+      const res = await fetch(`${config.API_BASE_URL}/v1/engine/pipeline`, {
         method: "POST",
         body: JSON.stringify(pipeline),
         headers: {

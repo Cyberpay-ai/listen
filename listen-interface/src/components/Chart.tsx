@@ -7,6 +7,7 @@ import {
 } from "lightweight-charts";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
+import { config } from "../config";
 
 interface ChartProps {
   mint: string;
@@ -109,7 +110,7 @@ export function Chart({ mint, interval = "1m" }: ChartProps) {
 
       try {
         const response = await fetch(
-          `https://api.listen-rs.com/v1/adapter/candlesticks?mint=${mint}&interval=${interval}`
+          `${config.API_BASE_URL}/v1/adapter/candlesticks?mint=${mint}&interval=${interval}`
         );
         const data = CandlestickData.parse(await response.json());
 

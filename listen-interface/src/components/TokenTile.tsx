@@ -3,6 +3,7 @@ import { FaCheck, FaGlobe, FaTelegram, FaXTwitter } from "react-icons/fa6";
 import { IoBarChart } from "react-icons/io5";
 import { useModal } from "../contexts/ModalContext";
 import { TokenMarketData, TokenMetadataRaw } from "../types/metadata";
+import { config } from "../config";
 
 interface TokenTileProps {
   token: TokenMarketData;
@@ -80,7 +81,7 @@ export function TokenTile({ token, index }: TokenTileProps) {
   };
 
   useEffect(() => {
-    fetch(`https://api.listen-rs.com/v1/adapter/metadata?mint=${token.pubkey}`)
+    fetch(`${config.API_BASE_URL}/v1/adapter/metadata?mint=${token.pubkey}`)
       .then(async (res) => {
         if (!res.ok) {
           const text = await res.text();
@@ -168,9 +169,9 @@ export function TokenTile({ token, index }: TokenTileProps) {
           <div className="text-xs sm:text-sm text-gray-500">
             MC: ${(token.marketCap / 1e6).toFixed(1)}M
           </div>
-          <div className="text-[10px] sm:text-xs text-gray-400">
+          {/* <div className="text-[10px] sm:text-xs text-gray-400">
             {token.uniqueAddresses.size} traders
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
