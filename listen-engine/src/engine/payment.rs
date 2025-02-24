@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use privy::caip2::Caip2;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SwapOrder {
+pub struct PaymentOrder {
     pub input_token: String,
     pub output_token: String,
     pub amount: String,
@@ -14,7 +14,7 @@ pub struct SwapOrder {
 }
 
 #[derive(Debug, thiserror::Error)]
-pub enum SwapOrderError {
+pub enum PaymentOrderError {
     #[error("Invalid CAIP2")]
     InvalidCaip2,
 
@@ -36,7 +36,7 @@ pub fn is_evm(caip2: &str) -> bool {
     caip2.starts_with("eip155:")
 }
 
-impl SwapOrder {
+impl PaymentOrder {
     pub fn is_evm(&self) -> bool {
         is_evm(&self.from_chain_caip2)
     }
@@ -85,59 +85,59 @@ fn caip2_to_chain_id(caip2: &str) -> Option<u64> {
     CHAIN_ID_MAP.get(caip2).copied()
 }
 
-pub enum SwapOrderTransaction {
+pub enum PaymentOrderTransaction {
     Evm(serde_json::Value),
     Solana(String),
 }
 
-pub async fn swap_order_to_transaction(
-    order: &SwapOrder,
-    lifi: &lifi::LiFi,
-    wallet_address: &str, // evm output
-    pubkey: &str,         // solana output
-) -> Result<SwapOrderTransaction, SwapOrderError> {
-    let from_chain_id =
-        caip2_to_chain_id(&order.from_chain_caip2).ok_or(SwapOrderError::InvalidCaip2)?;
-    let to_chain_id =
-        caip2_to_chain_id(&order.to_chain_caip2).ok_or(SwapOrderError::InvalidCaip2)?;
+// pub async fn swap_order_to_transaction(
+//     order: &PaymentOrder,
+//     lifi: &lifi::LiFi,
+//     wallet_address: &str, // evm output
+//     pubkey: &str,         // solana output
+// ) -> Result<PaymentOrderTransaction, PaymentOrderError> {
+//     let from_chain_id =
+//         caip2_to_chain_id(&order.from_chain_caip2).ok_or(PaymentOrderError::InvalidCaip2)?;
+//     let to_chain_id =
+//         caip2_to_chain_id(&order.to_chain_caip2).ok_or(PaymentOrderError::InvalidCaip2)?;
 
-    let from_address = if is_evm(&order.from_chain_caip2) {
-        wallet_address
-    } else {
-        pubkey
-    };
+//     let from_address = if is_evm(&order.from_chain_caip2) {
+//         wallet_address
+//     } else {
+//         pubkey
+//     };
 
-    let to_address = if is_evm(&order.to_chain_caip2) {
-        wallet_address
-    } else {
-        pubkey
-    };
+//     let to_address = if is_evm(&order.to_chain_caip2) {
+//         wallet_address
+//     } else {
+//         pubkey
+//     };
 
-    let quote = lifi
-        .get_quote(
-            &from_chain_id.to_string(),
-            &to_chain_id.to_string(),
-            &order.input_token,
-            &order.output_token,
-            from_address,
-            to_address,
-            &order.amount,
-        )
-        .await
-        .map_err(SwapOrderError::LiFiError)?;
+//     let quote = lifi
+//         .get_quote(
+//             &from_chain_id.to_string(),
+//             &to_chain_id.to_string(),
+//             &order.input_token,
+//             &order.output_token,
+//             from_address,
+//             to_address,
+//             &order.amount,
+//         )
+//         .await
+//         .map_err(PaymentOrderError::LiFiError)?;
 
-    match quote.transaction_request {
-        Some(transaction_request) => {
-            if transaction_request.is_solana() {
-                Ok(SwapOrderTransaction::Solana(transaction_request.data))
-            } else {
-                Ok(SwapOrderTransaction::Evm(
-                    transaction_request
-                        .to_json_rpc()
-                        .map_err(SwapOrderError::SerializeError)?,
-                ))
-            }
-        }
-        None => Err(SwapOrderError::NoTransactionRequest),
-    }
-}
+//     match quote.transaction_request {
+//         Some(transaction_request) => {
+//             if transaction_request.is_solana() {
+//                 Ok(PaymentOrderTransaction::Solana(transaction_request.data))
+//             } else {
+//                 Ok(PaymentOrderTransaction::Evm(
+//                     transaction_request
+//                         .to_json_rpc()
+//                         .map_err(PaymentOrderError::SerializeError)?,
+//                 ))
+//             }
+//         }
+//         None => Err(PaymentOrderError::NoTransactionRequest),
+//     }
+// }

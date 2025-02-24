@@ -59,6 +59,49 @@ impl Evaluator {
                 Ok(acc || Self::evaluate_condition(c, prices)?)
             }),
             ConditionType::Now { .. } => Ok(true),
+            ConditionType::GTTimer(date_time) => Ok(chrono::Utc::now() > *date_time),
+            ConditionType::LTTimer(date_time) => Ok(chrono::Utc::now() < *date_time),
+
+            // 价格突破和回调条件
+            // ConditionType::PriceBreakout { asset, value, period } => {
+            //     let price = prices
+            //         .get(asset)
+            //         .ok_or_else(|| EvaluatorError::MissingPriceData(asset.clone()))?;
+            //     // TODO: 需要实现获取历史价格数据的功能
+            //     Ok(price > value)
+            // },
+            // ConditionType::PriceRetracement { asset, high, low } => {
+            //     let price = prices
+            //         .get(asset)
+            //         .ok_or_else(|| EvaluatorError::MissingPriceData(asset.clone()))?;
+            //     Ok(price >= low && price <= high)
+            // },
+
+            // // 交易量条件
+            // ConditionType::VolumeSpike { asset, threshold } => {
+            //     // TODO: 需要实现获取交易量数据的功能
+            //     Ok(false)
+            // },
+
+            // // 技术指标条件
+            // ConditionType::MovingAverageCross { asset, fast_period, slow_period } => {
+            //     // TODO: 需要实现计算移动平均线的功能
+            //     Ok(false)
+            // },
+            // ConditionType::RSIThreshold { asset, period, threshold } => {
+            //     // TODO: 需要实现计算RSI的功能
+            //     Ok(false)
+            // },
+
+            // // 转账相关条件
+            // ConditionType::BalanceAbove { asset, amount } => {
+            //     // TODO: 需要实现获取余额的功能
+            //     Ok(false)
+            // },
+            // ConditionType::GasFeeBelow { value } => {
+            //     // TODO: 需要实现获取gas费用的功能
+            //     Ok(false)
+            // }
         }
     }
 }

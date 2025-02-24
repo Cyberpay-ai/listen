@@ -7,6 +7,7 @@ pub mod evaluate;
 pub mod evaluator;
 pub mod execute;
 pub mod order;
+pub mod payment;
 pub mod pipeline;
 
 use crate::engine::error::EngineError;

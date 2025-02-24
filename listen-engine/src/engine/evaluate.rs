@@ -117,6 +117,11 @@ impl Engine {
                                     step.status = Status::Completed;
                                     continue;
                                 }
+                                Action::Payment(payment_order) => {
+                                    tracing::info!(%current_step_id, "TODO: payment_order");
+                                    step.status = Status::Completed;
+                                    continue;
+                                }
                             },
                             Ok(false) => {
                                 break; // just pending, we'll check again next time

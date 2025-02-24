@@ -35,6 +35,8 @@ impl Engine {
                 ConditionType::Now { .. } => {
                     assets.insert("NOW".to_string());
                 }
+                ConditionType::GTTimer(date_time) => todo!(),
+                ConditionType::LTTimer(date_time) => todo!(),
             }
         }
     }

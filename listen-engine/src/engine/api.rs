@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use uuid::Uuid;
 
 use super::order::SwapOrder;
+use super::payment::PaymentOrder;
 use super::pipeline::{
     Action, Condition, ConditionType, Notification, Pipeline, PipelineStep, Status,
 };
@@ -12,6 +13,8 @@ use super::pipeline::{
 pub enum WireActionType {
     #[serde(rename = "SwapOrder")]
     SwapOrder,
+    #[serde(rename = "PaymentOrder")]
+    PaymentOrder,
     #[serde(rename = "Notification")]
     Notification,
 }
