@@ -1,6 +1,6 @@
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
-import { visualizer } from "rollup-plugin-visualizer";
+// import { visualizer } from "rollup-plugin-visualizer";
 import type { Plugin } from "vite";
 import { defineConfig } from "vite";
 import compression from "vite-plugin-compression";
@@ -41,7 +41,8 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
       },
     }),
-    visualizer(),
+    // 暂时注释掉 visualizer
+    // visualizer(),
     compression(),
   ],
   build: {
